@@ -7,7 +7,7 @@ using woolies.models;
 namespace woolies.api.Controllers
 {
     [Route("api/[controller]")]
-    public class ProductsController : Controller
+    public class SortController : Controller
     {
         // GET api/values
         [HttpGet]

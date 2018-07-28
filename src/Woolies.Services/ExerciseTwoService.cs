@@ -15,7 +15,7 @@ namespace Woolies.Services
             this.repo = repo;
         }
 
-        public Task<List<ProductModel>> HandleRequest(string sortOption)
+        public Task<List<ProductModel>> HandleRequest(SortOptions sortOption)
         {
             return this.repo.GetProducts(sortOption);
         }

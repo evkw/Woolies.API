@@ -6,6 +6,6 @@ namespace Woolies.Abstractions.Repositories
 {
     public interface IProductsRepository
     {
-        Task<List<ProductModel>> GetProducts(string sortOption);
+        Task<List<ProductModel>> GetProducts(SortOptions sortOption);
     }
 }

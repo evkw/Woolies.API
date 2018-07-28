@@ -6,6 +6,6 @@ namespace Woolies.Abstractions.Services
 {
     public interface IExerciseTwoService
     {
-        Task<List<ProductModel>> HandleRequest(string sortOption);
+        Task<List<ProductModel>> HandleRequest(SortOptions sortOption);
     }
 }

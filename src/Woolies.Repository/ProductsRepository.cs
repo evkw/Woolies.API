@@ -50,24 +50,22 @@ namespace Woolies.repository
             }
         }
 
-        public async Task<List<ProductModel>> GetProducts(string sortOption)
+        public async Task<List<ProductModel>> GetProducts(SortOptions sortOption)
         {
             var products = await this.GetProductsFromTestApi();
 
             switch (sortOption)
             {
-                case "Low":
+                case SortOptions.Low:
                     return products.OrderBy(p => p.Price).ToList();
-                case "High":
+                case SortOptions.High:
                     return products.OrderByDescending(p => p.Price).ToList();
-                case "Ascending":
+                case SortOptions.Ascending:
                     return products.OrderBy(p => p.Name).ToList();
-                case "Descending":
+                case SortOptions.Descending:
                     return products.OrderByDescending(p => p.Name).ToList();
-                case "Recommended":
+                case SortOptions.Recommended:
                     return await this.GetReccomendedProducts();
-                default:
-                    break;
             }
 
             return new List<ProductModel>();

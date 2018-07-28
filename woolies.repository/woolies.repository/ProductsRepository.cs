@@ -25,8 +25,6 @@ namespace woolies.repository
 
         private async Task<List<Product>> GetProductsFromTestApi()
         {
-            var test = this.testConfig.BaseApi;
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(products);
             using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
             using (Stream stream = response.GetResponseStream())
@@ -39,8 +37,6 @@ namespace woolies.repository
 
         private async Task<List<ShopperHistory>> GetReccomendedProductsFromTestApi()
         {
-            var test = this.testConfig.BaseApi;
-
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(shopperHistory);
             using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
             using (Stream stream = response.GetResponseStream())

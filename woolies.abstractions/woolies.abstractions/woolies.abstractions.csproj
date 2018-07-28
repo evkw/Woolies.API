@@ -8,4 +8,8 @@
     <ProjectReference Include="..\..\woolies.models\woolies.models\woolies.models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="External\" />
+  </ItemGroup>
+
 </Project>

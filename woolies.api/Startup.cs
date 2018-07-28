@@ -9,6 +9,7 @@ using woolies.abstractions.Services;
 using woolies.api.Configuration;
 using woolies.repository;
 using woolies.services;
+using Woolies.Repositories;
 
 namespace woolies.api
 {
@@ -33,13 +34,14 @@ namespace woolies.api
             // Repo DI
             services.AddTransient<IAnswerRepository, AnswerRepository>();
             services.AddTransient<IProductsRepository, ProductsRepository>();
+            services.AddSingleton<IWooliesTestEndpointClient, WooliesTestEndpointClient>();
 
             // Service DI
             services.AddTransient<IExerciseOneService, ExerciseOneService>();
             services.AddTransient<IExerciseTwoService, ExerciseTwoService>();
+            services.AddTransient<IExerciseThreeService, ExerciseThreeService>();
 
             // Config DI
-            
             services.Configure<WooliesTestConfiguration>(this.Configuration);
             services.AddSingleton<IWooliesTestConfiguration, WooliesTestConfiguration>();
 

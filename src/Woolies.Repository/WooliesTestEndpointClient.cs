@@ -10,12 +10,14 @@ namespace Woolies.Repositories
 
         public WooliesTestEndpointClient()
         {
-            var uriBuilder = new UriBuilder("http://dev-Wooliesx-recruitment.azurewebsites.net/api/resource/");
-            uriBuilder.Query = "token=a4bd6f4e-aaba-4b32-8a20-98c247590e3b";
+            this.HttpClient = new HttpClient();
+        }
 
-            this.HttpClient = new HttpClient
+        public UriBuilder GetUri(string resource = null)
+        {
+            return new UriBuilder($"http://dev-Wooliesx-recruitment.azurewebsites.net/api/resource/" + resource)
             {
-                BaseAddress = uriBuilder.Uri
+                Query = "token=a4bd6f4e-aaba-4b32-8a20-98c247590e3b"
             };
         }
     }

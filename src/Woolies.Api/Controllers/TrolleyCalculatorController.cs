@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Woolies.Abstractions.Services;
 using Woolies.Models;
 
 namespace Woolies.api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/trolleyCalculator")]
     public class TrolleyCalculatorController : Controller
     {
         [HttpGet]

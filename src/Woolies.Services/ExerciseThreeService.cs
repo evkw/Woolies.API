@@ -13,12 +13,12 @@ namespace Woolies.Services
     public class ExerciseThreeService : IExerciseThreeService
     {
         private IWooliesTestEndpointClient _httpClient;
-        private readonly ILogger _logger;
+        //private readonly ILogger _logger;
 
-        public ExerciseThreeService(IWooliesTestEndpointClient httpClient, ILogger logger)
+        public ExerciseThreeService(IWooliesTestEndpointClient httpClient)
         {
             this._httpClient = httpClient;
-            this._logger = logger;
+            //this._logger = logger;
         }
 
         public async Task<decimal> GetApiCalculatedTotal(TrolleyCalculatorRequest request)
@@ -34,7 +34,7 @@ namespace Woolies.Services
             }
             catch(HttpRequestException exception)
             {
-                this._logger.LogError("Unable to complete post to resource {resource}", "trolleyCalculator");
+                //this._logger.LogError("Unable to complete post to resource {resource}", "trolleyCalculator");
                 throw exception;
             }
         }

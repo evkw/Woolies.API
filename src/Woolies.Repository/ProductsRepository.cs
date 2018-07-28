@@ -12,25 +12,26 @@ namespace Woolies.repository
     public class ProductsRepository : IProductsRepository
     {
         private IWooliesTestEndpointClient _httpClient;
-        private ILogger _logger;
+        //private ILogger _logger;
 
-        public ProductsRepository(IWooliesTestEndpointClient httpClient, ILogger logger)
+        public ProductsRepository(IWooliesTestEndpointClient httpClient)
         {
             this._httpClient = httpClient;
-            this._logger = logger;
+            //this._logger = logger;
         }
 
         private async Task<List<ProductModel>> GetProductsFromTestApi()
         {
             try
             {
-                var response = await this._httpClient.HttpClient.GetAsync("products");
+                var baseUri = this._httpClient.GetUri("products");
+                var response = await this._httpClient.HttpClient.GetAsync(baseUri.Uri);
                 var result = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<ProductModel>>(result);
             }
             catch(HttpRequestException exception)
             {
-                this._logger.LogError("Unable to complete get request to resoure {resource}", "products");
+                //this._logger.LogError("Unable to complete get request to resoure {resource}", "products");
                 throw exception;
             }
         }
@@ -39,13 +40,14 @@ namespace Woolies.repository
         {
             try
             {
-                var response = await this._httpClient.HttpClient.GetAsync("shopperHistory");
-                var result = await response.Content.ReadAsStringAsync();
+                var baseUri = this._httpClient.GetUri("shopperHistory");
+                var response = await this._httpClient.HttpClient.GetAsync(baseUri.Uri);
+                var result = await response.RequestMessage.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<ShopperHistoryModel>>(result);
             }
             catch(HttpRequestException exception)
             {
-                this._logger.LogError("Unable to complete get request to resoure {resource}", "shopperHistory");
+                //this._logger.LogError("Unable to complete get request to resoure {resource}", "shopperHistory");
                 throw exception;
             }
         }

@@ -10,6 +10,7 @@ using Woolies.api.Configuration;
 using Woolies.repository;
 using Woolies.Services;
 using Woolies.Repositories;
+using Microsoft.Extensions.Logging;
 
 namespace Woolies.api
 {
@@ -45,6 +46,14 @@ namespace Woolies.api
             services.Configure<WooliesTestConfiguration>(this.Configuration);
             services.AddSingleton<IWooliesTestConfiguration, WooliesTestConfiguration>();
 
+            // Logging
+            services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+            services.AddLogging(loggingBuilder => loggingBuilder
+                .AddConsole()
+                .AddDebug()
+                .SetMinimumLevel(LogLevel.Debug));
+
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -55,8 +64,10 @@ namespace Woolies.api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {

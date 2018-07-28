@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
-using woolies.abstractions;
+using woolies.abstractions.Configuration;
 using woolies.abstractions.Repositories;
 using woolies.abstractions.Services;
+using woolies.api.Configuration;
 using woolies.repository;
 using woolies.services;
 
@@ -19,16 +14,35 @@ namespace woolies.api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public IConfigurationRoot Configuration { get; private set; }
 
-        public IConfiguration Configuration { get; }
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddEnvironmentVariables();
+            this.Configuration = builder.Build();
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
+            // Repo DI
+            services.AddTransient<IAnswerRepository, AnswerRepository>();
+            services.AddTransient<IProductsRepository, ProductsRepository>();
+
+            // Service DI
+            services.AddTransient<IExerciseOneService, ExerciseOneService>();
+            services.AddTransient<IExerciseTwoService, ExerciseTwoService>();
+
+            // Config DI
+            
+            services.Configure<WooliesTestConfiguration>(this.Configuration);
+            services.AddSingleton<IWooliesTestConfiguration, WooliesTestConfiguration>();
+
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -36,17 +50,12 @@ namespace woolies.api
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
 
-            // Repo DI
-            services.AddTransient<IAnswerRepository, AnswerRepository>();
-
-            // Service DI
-            services.AddTransient<IExerciseOneService, ExerciseOneService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -25,11 +25,12 @@ namespace Woolies.Services
         {
             try
             {
-                int result;
+                decimal result;
                 var json = JsonConvert.SerializeObject(request);
                 var body = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-                var response = await this._httpClient.HttpClient.PostAsync("trolleyCalculator", body);
-                Int32.TryParse(await response.Content.ReadAsStringAsync(), out result);
+                var uri = this._httpClient.GetUri("trolleyCalculator");
+                var response = await this._httpClient.HttpClient.PostAsync(uri.Uri, body);
+                Decimal.TryParse(await response.Content.ReadAsStringAsync(), out result);
                 return result;
             }
             catch(HttpRequestException exception)

@@ -8,8 +8,8 @@ namespace Woolies.api.Controllers
     [Route("api/trolleyCalculator")]
     public class TrolleyCalculatorController : Controller
     {
-        [HttpGet]
-        public async Task<decimal> Sort([FromServices]IExerciseThreeService service, [FromQuery]TrolleyCalculatorRequest request)
+        [HttpPost]
+        public async Task<decimal> Sort([FromServices]IExerciseThreeService service, [FromBody]TrolleyCalculatorRequest request)
         {
             return await service.GetApiCalculatedTotal(request);
         }
